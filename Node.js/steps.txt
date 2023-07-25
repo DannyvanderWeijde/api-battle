@@ -1,0 +1,11 @@
+1: npm install mongoose dotenv
+
+2: make .env file and add MONGODB_URI like: MONGODB_URI=mongodb://localhost:27017/mydatabase
+
+3: make .gitignore and add .env and node_modules
+
+4: make a global js file like app.js and require dotenv
+
+5: make a file to get a connection with the database like db.js
+
+6: require db.js after dotenv
