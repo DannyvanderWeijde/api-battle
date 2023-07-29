@@ -8,6 +8,7 @@ const ProductController = require('../controllers/productController')
 // Set get all products function.
 router.get('/', ProductController.getAllProducts)
 router.get('/:name', ProductController.getProduct)
+router.post('/create', ProductController.createProduct)
 
 // Export the router.
 module.exports = router
