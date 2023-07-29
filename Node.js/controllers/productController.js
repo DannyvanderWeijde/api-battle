@@ -64,7 +64,20 @@ exports.updateProduct = async (request, response) => {
     }
 
     // Save the product.
-    this.querySelector(await response.product.save(), response, 400)
+    this.querySelector(await response.product.save(), response, null, 400)
+}
+
+/**
+ * Function to delete the given product.
+ *
+ * @param {Object} request
+ * @param {Object} response
+ *
+ * @returns {Promise<void>}
+ */
+exports.deleteProduct = async (request, response) => {
+    // Delete the product by the id.
+    this.querySelector(await Product.deleteOne(response.product), response, `Product ${response.product.name} has been removed`)
 }
 
 /**
@@ -72,14 +85,17 @@ exports.updateProduct = async (request, response) => {
  *
  * @param {Object} url
  * @param {Object} response
+ * @param {String|Null} successMessage
  * @param {Number} errorCode
  *
  * @returns {Promise<void>}
  */
-exports.querySelector = async (url, response, errorCode = 500) => {
+exports.querySelector = async (url, response, successMessage = null ,errorCode = 500) => {
     try {
+        // Get the result of the given url.
+        const result = await url
         // Get all the products.
-        response.json(await url)
+        response.json(successMessage ? successMessage : result)
     } catch (error) {
         // If something goes wrong return the error message.
         response.status(errorCode).json({ message: error })

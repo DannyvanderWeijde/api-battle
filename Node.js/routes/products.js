@@ -10,6 +10,7 @@ router.get('/', ProductController.getAllProducts)
 router.get('/:name', ProductController.getProduct)
 router.post('/create', ProductController.createProduct)
 router.patch('/update/:id', ProductController.getProductById, ProductController.updateProduct)
+router.delete('/delete/:id', ProductController.getProductById, ProductController.deleteProduct)
 
 // Export the router.
 module.exports = router
