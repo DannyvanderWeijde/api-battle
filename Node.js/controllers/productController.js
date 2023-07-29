@@ -50,19 +50,73 @@ exports.createProduct = async (request, response) => {
 }
 
 /**
- * Function to get the given query.
+ * Function to update a product.
  *
- * @param {Object} url
+ * @param {Object} request
  * @param {Object} response
  *
  * @returns {Promise<void>}
  */
-exports.querySelector = async (url, response) => {
+exports.updateProduct = async (request, response) => {
+    // Loop through all the given properties and replace the values if a value was sent with.
+    for (const [key, value] of Object.entries(request.body)) {
+        if (value) response.product[key] = value
+    }
+
+    // Save the product.
+    this.querySelector(await response.product.save(), response, 400)
+}
+
+/**
+ * Function to get the given query.
+ *
+ * @param {Object} url
+ * @param {Object} response
+ * @param {Number} errorCode
+ *
+ * @returns {Promise<void>}
+ */
+exports.querySelector = async (url, response, errorCode = 500) => {
     try {
         // Get all the products.
         response.json(await url)
     } catch (error) {
         // If something goes wrong return the error message.
-        response.status(500).json({ message: error })
+        response.status(errorCode).json({ message: error })
     }
+}
+
+/***********************
+ * Middleware.
+ ***********************/
+
+/**
+ * Function to get a product by its id.
+ *
+ * @param {Object} request
+ * @param {Object} response
+ * @param {Function} next
+ *
+ * @returns {Promise<Model>}
+ */
+exports.getProductById = async (request, response, next) => {
+    // Create undefined product.
+    let product
+
+    try {
+        // Try to get the product by its id.
+        product = await Product.findById(request.params.id)
+
+        // Check if the product was found. If not send a 404 error.
+        if (!product) return response.status(404).json({ message: 'Cannot find product' })
+    } catch (error) {
+        // Show the user that something went wrong with the database call.
+        return response.status(500).json({ message: error.message })
+    }
+
+    // Set response product to the found product.
+    response.product = product
+
+    // Run the next function to go to the next function.
+    next()
 }

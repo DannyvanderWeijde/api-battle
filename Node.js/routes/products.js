@@ -5,10 +5,11 @@ const router = express.Router()
 // Require the products controller.
 const ProductController = require('../controllers/productController')
 
-// Set get all products function.
+// Set get all products routes.
 router.get('/', ProductController.getAllProducts)
 router.get('/:name', ProductController.getProduct)
 router.post('/create', ProductController.createProduct)
+router.patch('/update/:id', ProductController.getProductById, ProductController.updateProduct)
 
 // Export the router.
 module.exports = router
