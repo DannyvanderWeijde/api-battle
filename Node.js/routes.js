@@ -3,10 +3,13 @@ const express = require('express')
 // Create a router.
 const router = express.Router()
 // Get the product routes.
-const ProductRoutes = require('./routes/products')
+const productRoutes = require('./routes/products')
+// Get the user routes.
+const userRoutes = require('./routes/users')
 
 // Use the product routes.
-router.use('/products', ProductRoutes)
+router.use('/products', productRoutes)
+router.use('/users', userRoutes)
 
 // Export the router.
 module.exports = router

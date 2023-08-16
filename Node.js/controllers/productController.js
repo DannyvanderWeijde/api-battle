@@ -94,7 +94,7 @@ exports.querySelector = async (url, response, successMessage = null ,errorCode =
     try {
         // Get the result of the given url.
         const result = await url
-        // Get all the products.
+        // return the success message.
         response.json(successMessage ? successMessage : result)
     } catch (error) {
         // If something goes wrong return the error message.
